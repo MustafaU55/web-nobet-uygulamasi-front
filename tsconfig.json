@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/(pages)/manager/DateRequests.jsx", "app/(pages)/users/[id]/page.jsx", "app/api/date-requests/[requestId]/route.js", "app/api/users/[userId]/route.js", "app/components/DateSelectForm.jsx", "app/components/UpdateUserForm.jsx", "app/components/UserDateRequests.jsx", "app/layout.jsx", "app/page.jsx", "app/components/UserForm.jsx", "app/api/date-requests/route.js", "next.config.js"],
+  "exclude": ["node_modules"]
+}

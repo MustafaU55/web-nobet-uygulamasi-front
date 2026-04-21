@@ -1,0 +1,430 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+
+  }
+}
+
+body {
+
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+
+}
+
+.gradient-bg {
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+}
+
+
+
+.page-wrapper {
+  display: flex;
+  /* Flexbox kullan */
+  flex-direction: column;
+  /* Elemanları dikey sırala */
+  min-height: 100vh;
+  /* Sayfa yüksekliğini en az 100% viewport yüksekliği yap */
+}
+
+/* Takvim ana container */
+.react-calendar {
+  max-width: 100%;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+}
+
+/* Navigasyon (önceki/sonraki butonlar) */
+.react-calendar__navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f4f4f4;
+  /* Daha belirgin bir arka plan rengi */
+  color: #fff;
+  /* Beyaz yazı rengi */
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.react-calendar__navigation button {
+  background-color: transparent;
+  color: black;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.react-calendar__navigation button:hover {
+  color: #000000;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  /* Hover rengi */
+}
+
+/* Navigasyon başlığı */
+.react-calendar__navigation span {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+/* Günler */
+.react-calendar__month-view__weekdays {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #555;
+  background-color: #f4f4f4;
+  padding: 5px 0;
+  border-radius: 5px;
+}
+
+/* Takvim günleri */
+.react-calendar__month-view__days__day {
+  text-align: center;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 3px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.react-calendar__month-view__days__day--weekend {
+  color: #d9534f;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth {
+  color: #bbb;
+}
+
+/* Seçili gün */
+.react-calendar__tile--active {
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+}
+
+.react-calendar__tile--active:hover {
+  background-color: #0056b3;
+}
+
+/* Hover efekti */
+.react-calendar__tile:hover {
+  background-color: #e8f0ff;
+}
+
+/* Ana konteyner */
+.calendar-container {
+  max-width: 400px;
+  margin: 20px auto;
+  display: flex;
+  /* Flexbox kullan */
+  flex-direction: column;
+  /* Elemanları dikey sırala */
+
+
+}
+
+.calendar-container-s {
+  border: 2px solid #e8e9ff !important;
+  /* Mavi renkte 2px kalınlığında border */
+  border-radius: 12px;
+  /* Köşeleri yuvarlak yap */
+  overflow: hidden;
+}
+
+/* Başlık paragrafı */
+.calendar-header {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.Approved {
+  background-color: green;
+  color: white;
+}
+
+/* Takvim özelleştirmeleri */
+.custom-calendar {
+  width: 100% !important;
+  max-width: none !important;
+  background: rgb(0, 0, 0);
+  border: none !important;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.custom-calendar .react-calendar__tile {
+  padding: 1.5em 0.5em !important;
+  font-size: 1.1em;
+  position: relative;
+}
+
+.custom-calendar .react-calendar__tile--now {
+  background-color: #e8e9ff;
+  /* Mavi arkaplan */
+  border-radius: 8px;
+  /* Köşeleri yuvarlak yap */
+  color: #000000;
+  /* Beyaz yazı rengi */
+}
+
+.custom-calendar .react-calendar__month-view__days__day {
+  color: #374151;
+}
+
+.custom-calendar .react-calendar__tile:enabled:hover,
+.custom-calendar .react-calendar__tile:enabled:focus {
+  background-color: #f3f4f6;
+  border-radius: 8px;
+}
+
+.custom-calendar .react-calendar__tile--active {
+  color: #000000 !important;
+  border-radius: 8px;
+}
+
+
+.custom-calendar .has-duty {
+  background-color: #dbeafe;
+  border-radius: 8px;
+}
+
+.custom-calendar .react-calendar__navigation button {
+  font-size: 1.2em;
+  padding: 1em;
+}
+
+.custom-calendar .react-calendar__navigation button:enabled:hover,
+.custom-calendar .react-calendar__navigation button:enabled:focus {
+  background-color: #f3f4f6;
+  border-radius: 8px;
+}
+
+.custom-calendar .react-calendar__month-view__weekdays__weekday {
+  padding: 1em;
+  font-size: 1em;
+  font-weight: 600;
+  color: #000000;
+}
+
+.custom-calendar .selected-date {
+  background-color: #2563eb !important;
+  border-radius: 8px;
+  color: #000000;
+}
+
+.custom-calendar .selected-date:enabled:hover,
+.custom-calendar .selected-date:enabled:focus {
+  background-color: #60a5fa !important;
+}
+
+.custom-calendar .react-calendar__tile--rangeStart,
+.custom-calendar .react-calendar__tile--rangeEnd {
+  background-color: #2563eb !important;
+  color: rgb(0, 0, 0) !important;
+  border-radius: 8px;
+}
+
+.react-calendar {
+  box-shadow: 0 !important;
+}
+
+/* Aradaki günlerin arka plan rengini tamamen kaldır */
+.react-calendar__tile--range {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Sadece tek tek seçilen günler için stil */
+.selected-single-date {
+  background: #2563eb !important;
+  color: rgb(0, 0, 0) !important;
+  border-radius: 8px !important;
+}
+
+/* Range başlangıç ve bitiş stillerini kaldır */
+.react-calendar__tile--rangeStart, 
+.react-calendar__tile--rangeEnd {
+  background: transparent !important;
+}
+
+/* Aktif gün hover efekti */
+.react-calendar__tile:enabled:hover {
+  background-color: #f3f4f6 !important;
+}
+
+/* Bugünün günü için özel stil */
+.react-calendar__tile--now {
+  background-color: #e8e9ff !important;
+}
+
+/* Navigasyon butonları */
+.react-calendar__navigation button {
+  min-width: 44px !important;
+}
+/* Tüm range stillerini devre dışı bırak */
+.custom-calendar .react-calendar__tile--rangeBetween {
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* Takvimdeki tüm tile'lar için temel stil */
+.custom-calendar .react-calendar__tile {
+  background: transparent;
+  transition: background-color 0.2s;
+}
+
+/* Seçili gün için özel stil (sadece border) */
+.custom-calendar .react-calendar__tile--active {
+  color: rgb(0, 0, 0) !important;
+}
+
+/* Header'a müdahale etmeden menüyü ayarlamak için ekstra z-index */
+/* styles.css veya global.css */
+.fullscreen-menu {
+  position: fixed;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+}
+
+.menu-item {
+  text-align: center;
+  color: black;
+  font-size: 18px;
+}
+
+.menu-item:hover {
+  color: #000000;
+}
+
+/* Takvim Butonları */
+.fc-button {
+  background-color: #db4d34;
+  color: white;
+  border: none;
+}
+
+.fc-button:hover {
+  background-color: #2980b9;
+}
+
+.fc-button:focus {
+  outline: none;
+}
+
+/* Gün Hücreleri */
+.fc-daygrid-day {
+  background-color: #efeff0;
+  /* Gün hücrelerinin arka planı */
+  border: none;
+  /* Gün hücrelerinin kenarlığı kaldırıldı */
+}
+
+.fc-daygrid-day.fc-day-today {
+  background-color: #f39c12;
+  /* Bugün olan gün için arka plan */
+  color: white;
+}
+
+.fc-daygrid-day:hover {
+  background-color: #e4e7e7;
+  /* Gün hücresine hover efekti */
+}
+
+/* Etkinlikler (Events) */
+.fc-daygrid-event {
+  border-radius: 12px;
+  color: white;
+  padding: 6px;
+  margin-bottom: 4px;
+}
+
+.fc-daygrid-event:hover {
+  background-color: #2563EB;
+  /* Etkinlik hover rengi */
+  cursor: pointer;
+}
+
+/* Haftalık Takvim Arka Planı */
+.fc-time-grid {
+  background-color: #f4f6f7;
+  /* Haftalık takvim alanının arka planı */
+  border: none;
+  /* Kenarlık kaldırıldı */
+}
+
+/* Takvim Genel Kenarlıklar ve Radius */
+.fc {
+  border-radius: 15px;
+  /* Takvimin tüm kenarlarına radius eklendi */
+  overflow: hidden;
+  /* Taşmaları engelle */
+  border: none;
+  /* Kenarlık kaldırıldı */
+}
+
+/* Takvim Toolbar */
+.fc-toolbar-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.fc-header-toolbar .fc-button-group {
+  margin-right: 10px;
+}
+
+.fc-event {
+  font-size: 0.8rem;
+  white-space: pre-line;
+  /* This allows newline characters */
+  line-height: 1.5;
+  /* Adjust line height if necessary */
+}
+
+.fc-event .fc-title {
+  font-weight: bold;
+}
+
+/* Gün Başlıkları (Pazartesi, Salı, vb.) */
+.fc-theme-standard th {
+  background: #37386e;
+  color: white;
+  /* Yazı rengi */
+  font-size: 1.1rem;
+  /* Font büyüklüğü */
+  font-weight: bold;
+  /* Kalın yazı */
+  text-align: center;
+  /* Metin ortalama */
+  padding: 15px 0;
+  /* Dikey boşluk artırıldı */
+  position: relative;
+  /* Arka plan efektleri için */
+  overflow: hidden;
+  /* Kenarlardan taşmayı engelle */
+  border: none;
+}

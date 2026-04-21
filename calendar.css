@@ -1,0 +1,120 @@
+.custom-calendar {
+    width: 100% !important;
+    max-width: 600px;
+    padding: 1rem;
+    background: white;
+    
+    border: 1px solid  #eceef1 !important;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 0 rgb(0 0 0 / 0.1) !important;
+}
+
+.custom-calendar .react-calendar__navigation {
+    margin-bottom: 1rem;
+}
+
+.custom-calendar .react-calendar__navigation button {
+    min-width: 44px;
+    background: none;
+    font-size: 16px;
+    padding: 8px;
+    border-radius: 8px;
+    color: #374151;
+}
+
+.custom-calendar .react-calendar__navigation button:enabled:hover,
+.custom-calendar .react-calendar__navigation button:enabled:focus {
+    background-color: #f3f4f6;
+}
+
+.custom-calendar .react-calendar__month-view__weekdays {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.75em;
+    color: #6b7280;
+    padding: 0.5rem 0;
+}
+
+.custom-calendar .react-calendar__month-view__days__day {
+    padding: 8px;
+    color: #374151;
+}
+
+.custom-calendar .react-calendar__tile {
+    max-width: 100%;
+    padding: 0.75rem;
+    background: none;
+    text-align: center;
+    line-height: 16px;
+    font-size: 14px;
+    border-radius: 8px;
+}
+
+.custom-calendar .react-calendar__tile:enabled:hover,
+.custom-calendar .react-calendar__tile:enabled:focus {
+    background-color: #f3f4f6;
+}
+/* şimdiki zaman */
+.custom-calendar .react-calendar__tile--now {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.custom-calendar .react-calendar__tile--active,
+.custom-calendar .react-calendar__tile--range {
+    background: #2563eb !important;
+    color: white;
+}
+
+.custom-calendar .react-calendar__tile--rangeStart,
+.custom-calendar .react-calendar__tile--rangeEnd {
+    background: #1d4ed8 !important;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+}
+
+.custom-calendar .weekend-tile {
+    color: #000000;
+}
+
+.custom-calendar .react-calendar__tile:disabled {
+    background-color: #f3f4f6;
+    color: #9ca3af;
+}
+
+.custom-calendar .react-calendar__navigation button:disabled {
+    background-color: #f3f4f6;
+}
+
+/* Hover efektleri */
+.custom-calendar .react-calendar__tile--hover {
+    background: #dbeafe !important;
+}
+
+/* Aralık seçimi için özel stiller */
+.custom-calendar .react-calendar__tile--range {
+    background: #dbeafe !important;
+    color: #2563eb;
+}
+/* Takvim gün css */
+.custom-calendar .react-calendar__tile--rangeStart,
+.custom-calendar .react-calendar__tile--rangeEnd {
+    background: #e8e9ff !important; 
+    color: white;
+    font-weight: bold;
+}
+
+/* Ana konteyner */
+.calendar-container {
+    max-width: 100%;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  
+  @media (max-width: 768px) {
+    .calendar-container {
+      padding: 0 10px;
+    }
+  }

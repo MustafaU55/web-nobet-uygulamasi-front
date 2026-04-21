@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://nobetx.com/
+
+# Sitemaps
+Sitemap: https://nobetx.com/sitemap.xml
