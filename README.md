@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Web Tabanlı Nöbet Uygulaması (Frontend)
 
-## Getting Started
+Bu proje, kurum içi nöbet ve vardiya yönetimini dijitalleştiren kapsamlı bir web uygulamasının kullanıcı arayüzüdür (Frontend). 
 
-First, run the development server:
+## 📖 Uygulama Hakkında
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Temel amacı nöbet oluşturma ve takip süreçlerini kolaylaştırmaktır. Sistem üzerinden **yöneticiler nöbet çizelgeleri oluşturabilirken**, **çalışanlar kendilerine atanan nöbetleri kolayca görüntüleyebilir.** 
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Bunun yanı sıra uygulama, sadece bir takvim olmanın ötesine geçerek aşağıdaki temel yönetim modüllerini de barındırır:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+*   **Nöbet Yönetimi:** Nöbet atamaları, değişiklik talepleri ve takvim üzerinden takip.
+*   **İzin Yönetimi:** Çalışanların izin taleplerinin toplanması ve yöneticiler tarafından onaylanması/reddedilmesi.
+*   **Departman Yönetimi:** Kurum içindeki farklı birimlerin ve departmanların sisteme tanımlanması ve yönetilmesi.
+*   **Kullanıcı Yönetimi:** Sisteme yeni çalışan/yönetici ekleme, yetkilendirme ve profil yönetimi işlemleri.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 Kullanılan Teknolojiler ve Mimari
 
-## Learn More
+Proje, modern ve performanslı bir web deneyimi sunmak amacıyla **Next.js (App Router)** mimarisi kullanılarak geliştirilmiştir. 
 
-To learn more about Next.js, take a look at the following resources:
+*   **Framework:** Next.js (App Router)
+*   **Dil:** JavaScript / JSX
+*   **Stil:** Tailwind CSS
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Klasör yapısı, modülerliği sağlamak için `(pages)` route grubu altında login, admin, manager ve users gibi temel modüllere ayrılmış durumdadır. UI bileşenleri ise `components` dizini altında merkezi olarak yönetilmektedir.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🛠️ Kurulum ve Geliştirme
 
-## Deploy on Vercel
+Yerel ortamda projeyi ayağa kaldırmak için aşağıdaki adımları izleyebilirsiniz:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1.  Depoyu bilgisayarınıza klonlayın.
+2.  Bağımlılıkları yükleyin:
+    ```bash
+    npm install
+    ```
+3.  Gerekli `.env` ayarlarınızı yapın.
+4.  Geliştirme sunucusunu başlatın:
+    ```bash
+    npm run dev
+    ```
+5.  Uygulamayı `http://localhost:3000` adresinde görüntüleyin.
