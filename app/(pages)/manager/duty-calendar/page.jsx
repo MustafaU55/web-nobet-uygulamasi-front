@@ -427,13 +427,13 @@ export default function DutyCalendar() {
 
             <main className='text-black flex-1 xl:ml-[40vh]  p-2 sm:p-10 bg-gradient-to-r from-blue-300 via-blue-200 to-blue-300'>
 
-            <ScrollHandler />
+                <ScrollHandler />
 
                 <div className=" mx-auto py-8">
-                    <title>Nöbet Takvimi Oluşturma - NöbetX</title>
+                    <title>Nöbet Takvimi Oluşturma - Nöbet Uygulaması</title>
                     <meta
                         name="description"
-                        content="Tek tuşla çalışanlarınız için yeni nöbet takvimleri oluşturun. Daha fazlası NöbetX.com'da."
+                        content="Tek tuşla çalışanlarınız için yeni nöbet takvimleri oluşturun. Daha fazlası nobetuygulamasi.com'da."
                     />
                     <link rel="icon" href="/logoj.png" />
                     <div className="flex justify-between items-center mb-8">

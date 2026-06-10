@@ -407,10 +407,10 @@ export default function UserPage() {
 
     return (
         <div className="min-h-screen bg-gradient-to-r from-blue-300 via-blue-200 to-blue-300 pb-24 text-black">
-            <title>{`${user.firstname} ${user.lastname} - NöbetX`}</title>
+            <title>{`${user.firstname} ${user.lastname} - Nöbet Uygulaması`}</title>
             <meta
                 name="description"
-                content={`${user.firstname} ${user.lastname} için kullanıcı profili sayfası. Daha fazlası NöbetX.com'da.`}
+                content={`${user.firstname} ${user.lastname} için kullanıcı profili sayfası. Daha fazlası nobetuygulamasi.com'da.`}
             />
             <Link rel="icon" href="/logoj.png" />
 

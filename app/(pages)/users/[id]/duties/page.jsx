@@ -113,12 +113,12 @@ export default function UserDutiesPage() {
 
     return (
         <div className="min-h-screen bg-gradient-to-r from-blue-300 via-blue-200 to-blue-300 pb-24 text-black">
-            <title>Nöbet Programı - NöbetX</title>
-            <meta name="description" content="Kullanıcı nöbet talepleri. Daha fazlası NöbetX.com'da." />
+            <title>Nöbet Programı - Nöbet Uygulaması</title>
+            <meta name="description" content="Kullanıcı nöbet talepleri. Daha fazlası nobetuygulamasi.com'da." />
             <link rel="icon" href="/logoj.png" />
-            <SidebarUser/>
+            <SidebarUser />
             <div className="xl:ml-[40vh] mx-auto p-2 sm:p-10">
-                
+
                 <div className="mb-6">
                     <h1 className="text-4xl md:text-5xl font-bold text-gray-900 text-center mb-8">Nöbet Görüntüleme</h1>
                 </div>
@@ -145,7 +145,7 @@ export default function UserDutiesPage() {
                     </div>
                 </div>
             </div>
-             <div>
+            <div>
                 <MobileBottomBarUser />
             </div>
         </div>

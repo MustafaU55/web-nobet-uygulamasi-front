@@ -54,7 +54,7 @@ function page() {
         {JSON.stringify({
           "@context": "https://schema.org",
           "@type": "SoftwareApplication",
-          "name": "NöbetX",
+          "name": "Nöbet Uygulaması",
           "description": "Nöbet ve vardiya yönetimi için tüm sektörlere uygun otomatik planlama çözümü.",
           "applicationCategory": "BusinessApplication",
           "operatingSystem": "Web"
@@ -62,7 +62,7 @@ function page() {
       </script>
       <meta
         name="description"
-        content="NöbetX, iş planlamanızı kolaylaştırır ve kullanıcı dostu araçlarla hızlı bir şekilde takvim oluşturmanıza yardımcı olur."
+        content="Nöbet Uygulaması, iş planlamanızı kolaylaştırır ve kullanıcı dostu araçlarla hızlı bir şekilde takvim oluşturmanıza yardımcı olur."
       />
 
       {/* Arka plan deseni */}
@@ -103,7 +103,7 @@ function page() {
           >
             {/* Görsel */}
             <img
-              src="/pngnoalt.png"
+              src="/nobetuygulamasi.png"
               alt="Flama Görseli"
               width="300"
               height="150"
@@ -129,11 +129,11 @@ function page() {
         {/* Hero Section - Takvim efekti ve düzenlenmiş başlık */}
         <div className="bg-white py-20 ">
           <div className="relative w-full py-20 ">
-            <title>Modern Nöbet Yönetim - NöbetX</title>
+            <title>Modern Nöbet Yönetim - Nöbet Uygulaması</title>
             {/* Meta Açıklama */}
             <meta
               name="description"
-              content="NöbetX - Tüm sektörler için modern nöbet ve vardiya yönetim sistemi. Otomatik nöbet planlama, takvim entegrasyonu ve anlık bildirimlerle iş süreçlerinizi kolaylaştırın."
+              content="Nöbet Uygulaması - Tüm sektörler için modern nöbet ve vardiya yönetim sistemi. Otomatik nöbet planlama, takvim entegrasyonu ve anlık bildirimlerle iş süreçlerinizi kolaylaştırın."
             />   {/* Favicon (Site logosu) */}
             <link rel="icon" href="/logoj.png" />
 
@@ -152,7 +152,7 @@ function page() {
                   {/* Başlık ve Logo Grubu */}
                   <div className="flex gap-5 mb-2 pt-16 ">
                     <div className=""> {/* Başlık Grubu */}
-                      <h1 className="text-7xl md:text-8xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 tracking-tight filter">NöbetX
+                      <h1 className="text-7xl md:text-8xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 tracking-tight filter">Nöbet Uygulaması
                       </h1>
                       <div className=" md:text-xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-semibold tracking-wide">
                         Modern Nöbet Yönetim Sistemi
@@ -186,7 +186,7 @@ function page() {
                   {/* Açıklama Metni */}
                   <div className="max-w-xl bg-white">
                     <p className="text-xl md:text-2xl text-gray-700 leading-relaxed py-4">
-                      <strong>NöbetX</strong>, sağlık çalışanlarından güvenlik ekiplerine, fabrika operasyonlarından IT ekiplerine kadar<span> </span>
+                      <strong>Nöbet Uygulaması</strong>, sağlık çalışanlarından güvenlik ekiplerine, fabrika operasyonlarından IT ekiplerine kadar<span> </span>
                       <span className="text-blue-600 font-medium">tüm sektörlerdeki</span> nöbet ve vardiya planlamasını kolaylaştıran<span> </span>
                       <span className="text-purple-600 font-medium">modern bir yönetim sistemi</span> sunar.
                     </p>
@@ -203,7 +203,7 @@ function page() {
           {/* Features Section */}
           <div className="relative max-w-7xl mx-auto px-4 py-20">
             <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-gray-800">
-              Neden <span className="text-blue-600">NöbetX</span>?
+              Neden <span className="text-blue-600">Nöbet Uygulaması</span>?
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -262,7 +262,7 @@ function page() {
               Hemen Başlayın
             </h2>
             <p className="text-xl mb-8 opacity-90">
-              Modern nöbet yönetimi için NöbetX'i tercih edin.
+              Modern nöbet yönetimi için Nöbet Uygulaması'i tercih edin.
             </p>
             <Link
               href="/login"

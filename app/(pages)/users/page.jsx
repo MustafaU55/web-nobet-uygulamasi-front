@@ -23,7 +23,7 @@ export default function Users() {
           },
         });
 
-       
+
 
         if (res.data.success && Array.isArray(res.data.users.data)) {
           setUsers(res.data.users.data); // Ensure res.data.users is an array
@@ -31,7 +31,7 @@ export default function Users() {
 
         }
       } catch {
-  
+
       } finally {
         setLoading(false);
       }
@@ -64,19 +64,19 @@ export default function Users() {
   // Ensure users is an array before filtering
   const filteredUsers = Array.isArray(users)
     ? users.filter((user) => {
-        return (
-          (user.firstname &&
-            user.firstname.toLowerCase().includes(searchTerm.toLowerCase())) ||
-          (user.lastname &&
-            user.lastname.toLowerCase().includes(searchTerm.toLowerCase())) ||
-          (user.email &&
-            user.email.toLowerCase().includes(searchTerm.toLowerCase())) ||
-          (user.username &&
-            user.username.toLowerCase().includes(searchTerm.toLowerCase())) ||
-          (user.phoneNumber &&
-            user.phoneNumber.toLowerCase().includes(searchTerm.toLowerCase()))
-        );
-      })
+      return (
+        (user.firstname &&
+          user.firstname.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (user.lastname &&
+          user.lastname.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (user.email &&
+          user.email.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (user.username &&
+          user.username.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (user.phoneNumber &&
+          user.phoneNumber.toLowerCase().includes(searchTerm.toLowerCase()))
+      );
+    })
     : [];
 
   if (loading) {
@@ -87,10 +87,10 @@ export default function Users() {
     <div className="min-h-screen bg-blue-300 ">
       <Sidebar />
       <div className="min-h-screen xl:ml-[40vh] mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-32 bg-gradient-to-r from-blue-300 via-blue-200 to-blue-300">
-        <title>Kullanıcı Listesi - NöbetX</title>
+        <title>Kullanıcı Listesi - Nöbet Uygulaması</title>
         <meta
           name="description"
-          content="Çalışanlarınıza ya da iş arkadaşlarını kolayca bulup ulaşabilirsiniz.. Daha fazlası NöbetX.com'da."
+          content="Çalışanlarınıza ya da iş arkadaşlarını kolayca bulup ulaşabilirsiniz.. Daha fazlası nobetuygulamasi.com'da."
         />
         {/* Favicon (Site logosu) */}
         <link rel="icon" href="/logoj.png" />

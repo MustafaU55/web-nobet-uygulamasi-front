@@ -47,7 +47,7 @@ const LoginUser = () => {
                 }
             }
         } catch {
-      
+
         }
     };
 
@@ -56,7 +56,7 @@ const LoginUser = () => {
             const response = await api.get("/api/userData", { withCredentials: true });
             if (response.data?.data?.userData) {
                 const user = response.data.data.userData;
-                
+
                 if (user.role === "admin") {
                     router.push("/manager");
                 } else if (user.role === "user") {
@@ -66,7 +66,7 @@ const LoginUser = () => {
                 }
             }
         } catch {
-    
+
         }
     };
 
@@ -106,14 +106,14 @@ const LoginUser = () => {
 
     return (
         <div className="text-black min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 py-24 flex justify-center items-center">
-             <title>Kayıt Ol - NöbetX</title>
-      {/* Meta Açıklama */}
-      <meta
-        name="description"
-        content="NöbetX uygulamasına hemen kayıt olun! Nöbetleriniz tek tuşla oluşturulsun."
-      />
-      {/* Favicon (Site logosu) */}
-      <link rel="icon" href="/logoj.png" />
+            <title>Kayıt Ol - Nöbet Uygulaması</title>
+            {/* Meta Açıklama */}
+            <meta
+                name="description"
+                content="Nöbet Uygulaması uygulamasına hemen kayıt olun! Nöbetleriniz tek tuşla oluşturulsun."
+            />
+            {/* Favicon (Site logosu) */}
+            <link rel="icon" href="/logoj.png" />
             <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
                 <h1 className="text-3xl font-semibold text-center mb-6">Giriş Yap</h1>
                 <form onSubmit={handleSubmit}>

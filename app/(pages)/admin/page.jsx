@@ -26,13 +26,13 @@ const AdminPanel = () => {
   const [status, setStatus] = useState("pending");
   const [selectedAdminID, setSelectedAdminID] = useState(null);
   const [selectedUserName, setSelectedUserName] = useState(null);
-  const [deletingUserId, setDeletingUserId] = useState(null); // Kullanıcı Sil
+  const [deletingUserId, setDeletingUserId] = useState(null);
 
   const [callenderData, setCallenderData] = useState([]);
-  const [expandedAllUserId, setExpandedAllUserId] = useState(null); // Tüm kullanıcılar için
-  const [expandedAdminUserId, setExpandedAdminUserId] = useState(null); // Adminler için
+  const [expandedAllUserId, setExpandedAllUserId] = useState(null);
+  const [expandedAdminUserId, setExpandedAdminUserId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [countOfPaginate, setCountOfPaginate] = useState(10); // Sayfa başına 10 öğe
+  const [countOfPaginate, setCountOfPaginate] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const [showSpecialTasks, setShowSpecialTasks] = useState(false);
   const [showDepartments, setShowDepartments] = useState(false);
@@ -49,11 +49,10 @@ const AdminPanel = () => {
 
   const [allUsersPagination, setAllUsersPagination] = useState({
     page: 1,
-    perPage: 12, // Her sayfada 4 kullanıcı gösterelim
+    perPage: 12,
     totalPages: 1
   });
 
-  // Tüm kullanıcıları ve admin kullanıcılarını API'den çekme ve sıralama
   useEffect(() => {
     const fetchAllUsers = async () => {
       try {
@@ -62,7 +61,6 @@ const AdminPanel = () => {
           new Date(b.created_at) - new Date(a.created_at)
         );
         setAllUsers(sortedUsers);
-        // Toplam sayfa sayısını hesapla
         setAllUsersPagination(prev => ({
           ...prev,
           totalPages: Math.ceil(sortedUsers.length / prev.perPage)
@@ -76,7 +74,6 @@ const AdminPanel = () => {
 
     fetchAllUsers();
 
-    // Admin kullanıcılarını çekme kısmı aynı kalacak
     const fetchAdminUsers = async () => {
       try {
         const adminRes = await api.post('/api/usersStore', { role: 'admin' }, {});
@@ -97,8 +94,8 @@ const AdminPanel = () => {
         ...params,
         page: pagination.page,
         countOfPaginate: pagination.perPage,
-        adminId: adminUser?.adminID, // adminId ekleniyor
-        username: adminUser?.username // username ekleniyor
+        adminId: adminUser?.adminID,
+        username: adminUser?.username
       });
 
       if (response.data && response.data.success) {
@@ -114,6 +111,7 @@ const AdminPanel = () => {
       return null;
     }
   };
+
   const handleDeleteUser = async (userId) => {
     try {
       const userToDelete = allUsers.find(user => user.id === userId) ||
@@ -130,7 +128,7 @@ const AdminPanel = () => {
 
       if (!confirmDelete) return;
 
-      setDeletingUserId(userId); // Silme işlemi başladı
+      setDeletingUserId(userId);
       setLoading(true);
 
       const response = await api.post('/api/deleteUser', {
@@ -147,11 +145,10 @@ const AdminPanel = () => {
       toast.error(`Silme işlemi başarısız: ${error.message}`);
     } finally {
       setLoading(false);
-      setDeletingUserId(null); // İşlem tamamlandı
+      setDeletingUserId(null);
     }
   };
 
-  // Kullanıcıları filtreleme
   const filteredUsers = (users) => {
     return users?.filter(user => {
       return user.firstname.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -164,14 +161,13 @@ const AdminPanel = () => {
 
   const handleAllUserClick = (userId) => {
     setExpandedAllUserId(prevId => (prevId === userId ? null : userId));
-    setExpandedAdminUserId(null); // Admin panelindeki açık kartı kapat
+    setExpandedAdminUserId(null);
     setCountOfCallendars(null);
     setShowPanel(false);
     setSelectedAdminID(null);
     setSelectedUserName(null);
-    setShowSpecialTasks(false); // Special Tasks panelini kapat
+    setShowSpecialTasks(false);
   };
-
 
   const handleDepartmanOffDayStore = (adminID, username) => {
     setSelectedAdminForTasks(adminID);
@@ -185,7 +181,7 @@ const AdminPanel = () => {
   const handleOffdayStore = (adminID, username) => {
     setSelectedAdminForTasks(adminID);
     setSelectedUserName(username);
-    setShowOffdayStore(true); // Add this state to your component
+    setShowOffdayStore(true);
     setShowPanel(false);
     setShowSpecialTasks(false);
     setShowDepartments(false);
@@ -193,12 +189,12 @@ const AdminPanel = () => {
 
   const handleAdminUserClick = (userId) => {
     setExpandedAdminUserId(prevId => (prevId === userId ? null : userId));
-    setExpandedAllUserId(null); // Tüm kullanıcılardaki açık kartı kapat
+    setExpandedAllUserId(null);
     setCountOfCallendars(null);
     setShowPanel(false);
     setSelectedAdminID(null);
     setSelectedUserName(null);
-    setShowSpecialTasks(false); // Special Tasks panelini kapat
+    setShowSpecialTasks(false);
   };
 
   const handleUserStore = (adminID, username) => {
@@ -210,38 +206,34 @@ const AdminPanel = () => {
     setShowDepartments(false);
   };
 
-
-  // countOfCallender butonuna tıklandığında yapılacak işlem
   const handleCountOfCallender = async (adminID, username) => {
     try {
-      setSelectedAdminID(adminID); // adminID'yi state'e kaydet
+      setSelectedAdminID(adminID);
       setSelectedUserName(username);
       const response = await api.post('/api/countOfCallender', { adminID });
       if (response.data && response.data.success) {
         setCountOfCallendars(response.data.countOfCallendars);
         setPanelContent("countOfCallendars");
         setShowPanel(true);
-        setShowSpecialTasks(false); // Special Tasks panelini kapat
+        setShowSpecialTasks(false);
       }
     } catch (error) {
       console.error("Takvim sayısı alınırken hata:", error);
     }
   };
 
-  // departmanStore butonuna tıklandığında yapılacak işlem
   const handleDepartmanStore = (adminID, username) => {
     setSelectedAdminForTasks(adminID);
     setSelectedUserName(username);
     setShowDepartments(true);
-    setShowPanel(false); // Diğer paneli kapat
-    setShowSpecialTasks(false); // Special Tasks panelini kapat
+    setShowPanel(false);
+    setShowSpecialTasks(false);
   };
 
-  // callenderStore butonuna tıklandığında yapılacak işlem
   const handleCallenderStore = async (adminID, username) => {
     try {
       setSelectedAdminID(adminID);
-      setSelectedUserName(username); // username state'ini güncelle
+      setSelectedUserName(username);
       setPagination(prev => ({ ...prev, page: 1 }));
       const adminUser = adminUsers.find(user => user.adminID === adminID);
       const response = await fetchPaginatedData(
@@ -249,7 +241,7 @@ const AdminPanel = () => {
         {
           filter: "all",
           adminID: adminID,
-          username: username // username'i de gönder
+          username: username
         },
         adminUser
       );
@@ -258,25 +250,23 @@ const AdminPanel = () => {
         setCallenderData(response.data);
         setPanelContent("callenderStore");
         setShowPanel(true);
-        setShowSpecialTasks(false); // Special Tasks panelini kapat
+        setShowSpecialTasks(false);
       }
     } catch (error) {
       console.error("Takvim verileri yüklenirken hata:", error);
     }
   };
 
-  // Special Task butonuna tıklandığında yapılacak işlem
   const handleSpecialTask = (adminID, username) => {
     setSelectedAdminForTasks(adminID);
     setSelectedUserName(username);
     setShowSpecialTasks(true);
-    setShowPanel(false); // Diğer paneli kapat
+    setShowPanel(false);
   };
 
   const handlePageChange = (newPage) => {
     if (newPage > 0 && newPage <= totalPages) {
       setCurrentPage(newPage);
-      // Mevcut panel içeriğine göre veriyi yeniden yükle
       switch (panelContent) {
         case "departmanStore":
           handleDepartmanStore(selectedAdminID);
@@ -293,30 +283,18 @@ const AdminPanel = () => {
     }
   };
 
-  // Paneli kapatma işlevi
   const handleClosePanel = () => {
     setShowPanel(false);
-    setSelectedAdminID(null); // State'i temizle
+    setSelectedAdminID(null);
     setSelectedUserName(null);
   };
 
-  const handleUserClick = (userId) => {
-    setExpandedUserId((prevId) => (prevId === userId ? null : userId));
-    setCountOfCallendars(null);
-    setShowPanel(false);
-    setSelectedAdminID(null); // State'i temizle
-    setSelectedUserName(null);
-    setShowSpecialTasks(false); // Special Tasks panelini kapat
-  };
-
-  // Sayfa değişikliği için yeni fonksiyon
   const handleAllUsersPageChange = (newPage) => {
     if (newPage > 0 && newPage <= allUsersPagination.totalPages) {
       setAllUsersPagination(prev => ({ ...prev, page: newPage }));
     }
   };
 
-  // Sayfalanmış kullanıcıları hesapla
   const getPaginatedUsers = () => {
     const startIndex = (allUsersPagination.page - 1) * allUsersPagination.perPage;
     const endIndex = startIndex + allUsersPagination.perPage;
@@ -328,310 +306,266 @@ const AdminPanel = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 py-42 pt-36 pb-36 text-black">
-      <h1 className="text-3xl font-semibold mb-8 text-center">Admin Paneli</h1>
+    <div className="min-h-screen bg-slate-50 text-slate-800 pb-20">
 
-      {/* Kullanıcı Arama Çubuğu */}
-      <div className="max-w-6xl mx-auto mb-8 px-4">
-        <input
-          type="text"
-          placeholder="Kullanıcı ara..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-        />
-      </div>
-
-      {/* Tüm Kullanıcı Listesi */}
-      <div className="max-w-6xl mx-auto mb-12">
-        <div className="flex justify-between items-center mb-2">
-          <h2 className="text-2xl font-bold">Tüm Kullanıcılar</h2>
-          <div className="flex items-center gap-4">
-            <span className="bg-purple-500 text-white px-3 py-1 rounded-full text-sm">
-              Toplam: {allUsers.length}
-            </span>
-            <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">
-              Sayfa: {allUsersPagination.page} / {allUsersPagination.totalPages}
-            </span>
-          </div>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
-          {getPaginatedUsers().map((user) => (
-            <UserCard
-              key={user.id}
-              user={user}
-              expandedUserId={expandedAllUserId}
-              handleUserClick={handleAllUserClick}
-              handleCountOfCallender={handleCountOfCallender}
-              handleDepartmanStore={handleDepartmanStore}
-              handleOffdayStore={handleOffdayStore}
-              handleCallenderStore={handleCallenderStore}
-              handleSpecialTask={handleSpecialTask}
-              countOfCallendars={countOfCallendars}
-              setSelectedAdminID={setSelectedAdminID}
-              setSelectedUserName={setSelectedUserName}
-              handleUserStore={handleUserStore}
-              handleDepartmanOffDayStore={handleDepartmanOffDayStore}
-              panelContent={panelContent}
-              handleDeleteUser={handleDeleteUser}
-            />
-          ))}
+      {/* Modern Top Navbar */}
+      <nav className="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-800 tracking-tight">Yönetim Paneli</h1>
+          <p className="text-sm text-slate-500 font-medium mt-0.5">Sistem ve Kullanıcı Yönetim Merkezi</p>
         </div>
 
-        {/* Tüm Kullanıcılar için Sayfalama */}
-        <div className="mt-6 border-t pt-4">
-          <Pagination
-            currentPage={allUsersPagination.page}
-            totalPages={allUsersPagination.totalPages}
-            onPageChange={handleAllUsersPageChange}
+        {/* Modern Search Bar */}
+        <div className="relative w-full sm:w-96">
+          <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input
+            type="text"
+            placeholder="İsim, e-posta, tel no ile ara..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full pl-10 pr-4 py-2.5 bg-slate-100/50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all text-sm"
           />
         </div>
-      </div>
+      </nav>
 
-      {/* Admin Kullanıcı Listesi */}
-      <div className="max-w-6xl mx-auto">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold">Admin Kullanıcılar</h2>
-          <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">
-            Toplam: {adminUsers.length}
-          </span>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
-          {filteredUsers(adminUsers).map((user) => (
-            <UserCard
-              key={user.id}
-              user={user}
-              expandedUserId={expandedAdminUserId}
-              handleUserClick={handleAdminUserClick}
-              handleCountOfCallender={handleCountOfCallender}
-              handleDepartmanStore={handleDepartmanStore}
-              handleOffdayStore={handleOffdayStore}
-              handleCallenderStore={handleCallenderStore}
-              handleSpecialTask={handleSpecialTask}
-              countOfCallendars={countOfCallendars}
-              setSelectedAdminID={setSelectedAdminID}
-              setSelectedUserName={setSelectedUserName}
-              handleUserStore={handleUserStore}
-              handleDepartmanOffDayStore={handleDepartmanOffDayStore}
-              panelContent={panelContent}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 mt-8 space-y-12">
+
+        {/* --- Yöneticiler (Admins) Section --- */}
+        <section>
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-indigo-100 rounded-lg">
+                <svg className="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+              </div>
+              <h2 className="text-xl font-bold text-slate-800">Yöneticiler (Admins)</h2>
+            </div>
+            <span className="bg-indigo-50 text-indigo-700 border border-indigo-100 px-3 py-1 rounded-full text-xs font-semibold">
+              {adminUsers.length} Kayıt
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {filteredUsers(adminUsers).map((user) => (
+              <UserCard
+                key={user.id}
+                user={user}
+                expandedUserId={expandedAdminUserId}
+                handleUserClick={handleAdminUserClick}
+                handleCountOfCallender={handleCountOfCallender}
+                handleDepartmanStore={handleDepartmanStore}
+                handleOffdayStore={handleOffdayStore}
+                handleCallenderStore={handleCallenderStore}
+                handleSpecialTask={handleSpecialTask}
+                handleUserStore={handleUserStore}
+                handleDepartmanOffDayStore={handleDepartmanOffDayStore}
+                handleDeleteUser={handleDeleteUser}
+                deletingUserId={deletingUserId}
+              />
+            ))}
+          </div>
+        </section>
+
+        {/* Divider */}
+        <hr className="border-slate-200" />
+
+        {/* --- Tüm Kullanıcılar Section --- */}
+        <section>
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-emerald-100 rounded-lg">
+                <svg className="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+              </div>
+              <h2 className="text-xl font-bold text-slate-800">Tüm Personel</h2>
+            </div>
+            <span className="bg-emerald-50 text-emerald-700 border border-emerald-100 px-3 py-1 rounded-full text-xs font-semibold">
+              {allUsers.length} Kayıt
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {getPaginatedUsers().map((user) => (
+              <UserCard
+                key={user.id}
+                user={user}
+                expandedUserId={expandedAllUserId}
+                handleUserClick={handleAllUserClick}
+                handleCountOfCallender={handleCountOfCallender}
+                handleDepartmanStore={handleDepartmanStore}
+                handleOffdayStore={handleOffdayStore}
+                handleCallenderStore={handleCallenderStore}
+                handleSpecialTask={handleSpecialTask}
+                handleUserStore={handleUserStore}
+                handleDepartmanOffDayStore={handleDepartmanOffDayStore}
+                handleDeleteUser={handleDeleteUser}
+                deletingUserId={deletingUserId}
+              />
+            ))}
+          </div>
+
+          {/* Pagination Component */}
+          <div className="mt-8 flex justify-center">
+            <Pagination
+              currentPage={allUsersPagination.page}
+              totalPages={allUsersPagination.totalPages}
+              onPageChange={handleAllUsersPageChange}
             />
-          ))}
-        </div>
+          </div>
+        </section>
+
       </div>
 
-      {/* Modals - All centered and full width */}
+      {/* --- Modals (Paneller) --- */}
+      {/* (Mevcut Modal yapıları aynı tutuldu, sadece arka plan backdrop-blur yapıldı) */}
       {showPanel && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-6xl max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center p-4 border-b">
-              <h2 className="text-xl font-semibold">
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 transition-opacity">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-hidden flex flex-col">
+            <div className="flex justify-between items-center p-5 border-b border-slate-100 bg-slate-50/50">
+              <h2 className="text-lg font-bold text-slate-800">
                 {panelContent === "countOfCallendars" && "Admin Takvim Sayısı"}
                 {panelContent === "departmanStore" && "Departmanlar"}
                 {panelContent === "offdayStore" && "Offday Talepleri"}
                 {panelContent === "callenderStore" && "Takvim Verileri"}
               </h2>
-              <button
-                onClick={handleClosePanel}
-                className="p-2 text-gray-500 hover:text-gray-700"
-              >
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
+              <button onClick={handleClosePanel} className="p-2 bg-white rounded-full border border-slate-200 text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
             </div>
-            <div className="p-4">
+            <div className="p-6 overflow-y-auto">
               {panelContent === "countOfCallendars" && (
-                <div className="text-center py-8">
-                  <p className="text-2xl font-bold">
-                    <span className="text-blue-600">{selectedUserName}</span> için kalan takvim sayısı:
+                <div className="text-center py-12">
+                  <p className="text-xl font-medium text-slate-600">
+                    <span className="font-bold text-indigo-600">{selectedUserName}</span> kullanıcısı için kalan takvim hakkı:
                   </p>
-                  <p className="text-4xl font-bold text-purple-600 mt-4">{countOfCallendars}</p>
+                  <p className="text-6xl font-black text-slate-800 mt-6">{countOfCallendars}</p>
                 </div>
               )}
               {panelContent === "callenderStore" && (
-                <CreatorPastCalendar
-                  adminID={selectedAdminID}
-                  username={selectedUserName}
-                  style={{ height: '70vh' }}
-                />
+                <CreatorPastCalendar adminID={selectedAdminID} username={selectedUserName} />
               )}
-
             </div>
           </div>
         </div>
       )}
 
+      {showOffdayStore && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 transition-opacity">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-hidden flex flex-col">
+            <div className="flex justify-between items-center p-5 border-b border-slate-100 bg-slate-50/50">
+              <h2 className="text-lg font-bold text-slate-800">
+                {selectedUserName ? `${selectedUserName} - ` : ''}İzin Talepleri
+              </h2>
+              <button onClick={() => setShowOffdayStore(false)} className="p-2 bg-white rounded-full border border-slate-200 text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </div>
+            <div className="p-6 overflow-y-auto">
+              <CreatorOffDayStore adminID={selectedAdminForTasks} />
+            </div>
+          </div>
+        </div>
+      )}
 
-      {/* Off Day */}
-      {
-        showOffdayStore && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-lg shadow-xl w-full max-w-6xl max-h-[90vh] overflow-y-auto">
-              <div className="flex justify-between items-center p-4 border-b">
-                <h2 className="text-xl font-semibold">
-                  {selectedUserName ? `${selectedUserName} - ` : ''}İzin Talepleri
-                </h2>
-                <button
-                  onClick={() => setShowOffdayStore(false)}
-                  className="p-2 text-gray-500 hover:text-gray-700"
-                >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-              <div className="p-4">
-                <CreatorOffDayStore adminID={selectedAdminForTasks} />
-              </div>
+      {showSpecialTasks && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 transition-opacity">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col">
+            <div className="flex justify-between items-center p-5 border-b border-slate-100 bg-slate-50/50">
+              <h2 className="text-lg font-bold text-slate-800">
+                {selectedUserName ? `${selectedUserName} - ` : ''}Nöbet Talepleri
+              </h2>
+              <button onClick={() => setShowSpecialTasks(false)} className="p-2 bg-white rounded-full border border-slate-200 text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </div>
+            <div className="p-6 overflow-y-auto">
+              <CreatorDutyRequests adminID={selectedAdminForTasks} />
             </div>
           </div>
-        )
-      }
+        </div>
+      )}
 
-      {/* Special Tasks Modal */}
-      {
-        showSpecialTasks && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-              <div className="flex justify-between items-center p-4 border-b">
-                <h2 className="text-3xl font-semibold">
-                  {selectedUserName ? `${selectedUserName} - ` : ''}Nöbet Talepleri
-                </h2>
-                <button
-                  onClick={() => setShowSpecialTasks(false)}
-                  className="p-2 text-gray-500 hover:text-gray-700"
-                >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-              <div className="p-4">
-                <CreatorDutyRequests
-                  adminID={selectedAdminForTasks}
-                />
-              </div>
+      {showUserStore && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 transition-opacity">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-hidden flex flex-col">
+            <div className="flex justify-between items-center p-5 border-b border-slate-100 bg-slate-50/50">
+              <h2 className="text-lg font-bold text-slate-800">
+                {selectedUserName ? `${selectedUserName} - ` : ''}Kullanıcı Yönetimi
+              </h2>
+              <button onClick={() => setShowUserStore(false)} className="p-2 bg-white rounded-full border border-slate-200 text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </div>
+            <div className="p-6 overflow-y-auto">
+              <CreatorUserStore adminID={selectedAdminForTasks} />
             </div>
           </div>
-        )
-      }
-      {/* User Store  */}
-      {
-        showUserStore && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-lg shadow-xl w-full max-w-6xl max-h-[90vh] overflow-y-auto">
-              <div className="flex justify-between items-center p-4 border-b">
-                <h2 className="text-3xl font-semibold">
-                  {selectedUserName ? `${selectedUserName} - ` : ''}Kullanıcı Yönetimi
-                </h2>
-                <button
-                  onClick={() => setShowUserStore(false)}
-                  className="p-2 text-gray-500 hover:text-gray-700"
-                >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-              <div className="p-4">
-                <CreatorUserStore adminID={selectedAdminForTasks} />
-              </div>
-            </div>
-          </div>
-        )
-      }
-      {/* Departman İzin GÜnleri */}
-      {
-        showDepartmanOffDayStore && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-lg shadow-xl w-full max-w-6xl max-h-[90vh] overflow-y-auto">
-              <div className="flex justify-between items-center p-4 border-b">
-                <h2 className="text-3xl font-semibold">
-                  {selectedUserName ? `${selectedUserName} - ` : ''}Departman İzinleri
-                </h2>
-                <button
-                  onClick={() => setShowDepartmanOffDayStore(false)}
-                  className="p-2 text-gray-500 hover:text-gray-700"
-                >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-              <div className="p-4">
-                <CreatorDepartmanOffDayStore adminID={selectedAdminForTasks} />
-              </div>
-            </div>
-          </div>
-        )
-      }
+        </div>
+      )}
 
-      {/* Departman Modal */}
-      {
-        showDepartments && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-              <div className="flex justify-between items-center p-4 border-b">
-                <h2 className="text-3xl font-semibold">
-                  {selectedUserName ? `${selectedUserName} - ` : ''}Departmanlar
-                </h2>
-                <button
-                  onClick={() => setShowDepartments(false)}
-                  className="p-2 text-gray-500 hover:text-gray-700"
-                >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-              <div className="p-4">
-                <CreatorDepartmanStore
-                  adminID={selectedAdminForTasks}
-                />
-              </div>
+      {showDepartmanOffDayStore && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 transition-opacity">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-hidden flex flex-col">
+            <div className="flex justify-between items-center p-5 border-b border-slate-100 bg-slate-50/50">
+              <h2 className="text-lg font-bold text-slate-800">
+                {selectedUserName ? `${selectedUserName} - ` : ''}Departman İzinleri
+              </h2>
+              <button onClick={() => setShowDepartmanOffDayStore(false)} className="p-2 bg-white rounded-full border border-slate-200 text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </div>
+            <div className="p-6 overflow-y-auto">
+              <CreatorDepartmanOffDayStore adminID={selectedAdminForTasks} />
             </div>
           </div>
-        )
-      }
-    </div >
+        </div>
+      )}
+
+      {showDepartments && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 transition-opacity">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col">
+            <div className="flex justify-between items-center p-5 border-b border-slate-100 bg-slate-50/50">
+              <h2 className="text-lg font-bold text-slate-800">
+                {selectedUserName ? `${selectedUserName} - ` : ''}Departmanlar
+              </h2>
+              <button onClick={() => setShowDepartments(false)} className="p-2 bg-white rounded-full border border-slate-200 text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </div>
+            <div className="p-6 overflow-y-auto">
+              <CreatorDepartmanStore adminID={selectedAdminForTasks} />
+            </div>
+          </div>
+        </div>
+      )}
+
+    </div>
   );
 };
 
 
-
-// Pagination bileşeni
+// Modern Pagination Bileşeni
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-  // Eğer toplam sayfa sayısı 1'den küçükse pagination'ı gösterme
   if (totalPages <= 1) return null;
 
   return (
-    <div className="flex justify-center items-center gap-2 mt-6">
+    <div className="flex justify-center items-center gap-1.5 mt-6 bg-white p-2 rounded-xl shadow-sm border border-slate-200 w-fit mx-auto">
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="px-4 py-2 bg-white border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="px-3 py-1.5 text-sm font-medium text-slate-600 rounded-lg hover:bg-slate-100 disabled:opacity-40 disabled:hover:bg-transparent transition-colors"
       >
         Önceki
       </button>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1 mx-2">
         {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
           <button
             key={page}
             onClick={() => onPageChange(page)}
-            className={`px-4 py-2 rounded-md ${currentPage === page
-              ? 'bg-purple-600 text-white'
-              : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
+            className={`w-8 h-8 flex items-center justify-center rounded-lg text-sm font-medium transition-colors ${currentPage === page
+                ? 'bg-indigo-600 text-white shadow-sm'
+                : 'text-slate-600 hover:bg-slate-100'
               }`}
           >
             {page}
@@ -642,7 +576,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="px-4 py-2 bg-white border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="px-3 py-1.5 text-sm font-medium text-slate-600 rounded-lg hover:bg-slate-100 disabled:opacity-40 disabled:hover:bg-transparent transition-colors"
       >
         Sonraki
       </button>
@@ -650,7 +584,12 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   );
 };
 
-// Kullanıcı kartı bileşeni
+// Avatar Helper
+const getInitials = (first, last) => {
+  return `${first?.charAt(0) || ''}${last?.charAt(0) || ''}`.toUpperCase();
+};
+
+// Modern User Card Bileşeni
 const UserCard = ({
   user,
   expandedUserId,
@@ -664,127 +603,155 @@ const UserCard = ({
   handleDeleteUser,
   deletingUserId,
   handleDepartmanOffDayStore,
-  countOfCallendars,
-  setSelectedUserName,
-  setSelectedAdminID,
 }) => {
+  const isExpanded = expandedUserId === user.id;
+  const isAdmin = user.role === 'admin';
+
   return (
-    <div
-      className={`bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 ${expandedUserId === user.id ? "ring-2 ring-purple-500" : ""
-        }`}
-    >
+    <div className={`bg-white rounded-2xl border transition-all duration-300 ${isExpanded ? "border-indigo-500 shadow-lg shadow-indigo-100" : "border-slate-200 shadow-sm hover:border-slate-300 hover:shadow-md"
+      }`}>
+
+      {/* Card Header (Clickable) */}
       <div
         onClick={() => handleUserClick(user.id)}
-        className="p-4 cursor-pointer hover:bg-gray-50 transition-colors"
+        className="p-5 cursor-pointer flex items-start gap-4"
       >
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-lg font-semibold text-gray-900">
+        {/* Avatar */}
+        <div className={`w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold flex-shrink-0 ${isAdmin ? 'bg-indigo-100 text-indigo-700' : 'bg-emerald-100 text-emerald-700'
+          }`}>
+          {getInitials(user.firstname, user.lastname)}
+        </div>
+
+        {/* Info */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center justify-between gap-2">
+            <h3 className="text-base font-bold text-slate-800 truncate">
               {user.firstname} {user.lastname}
-            </p>
-            <p className="text-sm text-gray-500">
-              @{user.username}
-            </p>
+            </h3>
+            <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold whitespace-nowrap ${isAdmin ? 'bg-indigo-50 text-indigo-600 border border-indigo-100' : 'bg-slate-100 text-slate-600 border border-slate-200'
+              }`}>
+              {isAdmin ? 'Yönetici' : 'Personel'}
+            </span>
           </div>
-          <div className="flex-shrink-0">
-            <svg
-              className={`w-5 h-5 text-gray-400 transition-transform ${expandedUserId === user.id ? "rotate-90" : ""
-                }`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 5l7 7-7 7"
-              />
+          <p className="text-sm text-slate-500 truncate mt-0.5">@{user.username}</p>
+        </div>
+
+        {/* Expand Icon */}
+        <div className="flex-shrink-0 mt-1">
+          <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${isExpanded ? 'bg-indigo-50 text-indigo-600' : 'text-slate-400 group-hover:bg-slate-50'}`}>
+            <svg className={`w-5 h-5 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
             </svg>
           </div>
         </div>
       </div>
 
-      {expandedUserId === user.id && (
-        <div className="p-4 pt-0 border-t">
-          <div className="mt-3 space-y-2 text-sm">
-            <p><span className="font-medium">Email:</span> {user.email}</p>
-            <p><span className="font-medium">Telefon:</span> {user.phoneNumber || '-'}</p>
-            <p><span className="font-medium">Admin ID:</span> {user.adminID}</p>
-            <p><span className="font-medium">Rol:</span> {user.role}</p>
-            <p><span className="font-medium">Id:</span> {user.id}</p>
+      {/* Expanded Content */}
+      <div className={`overflow-hidden transition-all duration-300 ${isExpanded ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'}`}>
+        <div className="p-5 pt-0 border-t border-slate-100 mt-2">
 
-            {user.role !== 'admin' && (
-              <button
-                onClick={() => handleDeleteUser(user.id)}
-                disabled={deletingUserId === user.id}
-                className={`p-2 bg-red-600 text-white rounded-lg w-full mt-3 ${deletingUserId === user.id ? 'opacity-50 cursor-not-allowed' : 'hover:bg-red-700'
-                  }`}
-              >
-                {deletingUserId === user.id ? (
-                  <span className="flex items-center justify-center">
-                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
-                      xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Siliniyor...
-                  </span>
-                ) : 'Kullanıcıyı Sil'}
-              </button>
-            )}
-
-            {user.role === 'admin' && (
-              <div className="mt-4 grid grid-cols-2 gap-3">
-                <button
-                  onClick={() => handleDepartmanOffDayStore(user.adminID, user.username)}
-                  className="p-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm"
-                >
-                  Departman İzinleri
-                </button>
-                <button
-                  onClick={() => handleUserStore(user.adminID, user.username)}
-                  className="p-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm"
-                >
-                  Kullanıcı Yönetimi
-                </button>
-                <button
-                  onClick={() => handleSpecialTask(user.adminID, user.username)}
-                  className="p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm col-span-2"
-                >
-                  Nöbet Talepleri
-                </button>
-                <button
-                  onClick={() => handleCallenderStore(user.adminID, user.username)}
-                  className="p-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors text-sm"
-                >
-                  Takvimler
-                </button>
-                <button
-                  onClick={() => handleOffdayStore(user.adminID, user.username)}
-                  className="p-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors text-sm"
-                >
-                  İzinler
-                </button>
-                <button
-                  onClick={() => handleDepartmanStore(user.adminID, user.username)}
-                  className="p-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors text-sm col-span-2"
-                >
-                  Departmanlar
-                </button>
-                <button
-                  onClick={() => handleCountOfCallender(user.adminID)}
-                  className="p-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors text-sm col-span-2"
-                >
-                  Takvim Durumu
-                </button>
-              </div>
-            )}
+          {/* User Details Box */}
+          <div className="bg-slate-50 rounded-xl p-4 space-y-2 mb-4 mt-4 text-sm">
+            <div className="flex items-center gap-2 text-slate-600">
+              <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+              <span className="truncate">{user.email}</span>
+            </div>
+            <div className="flex items-center gap-2 text-slate-600">
+              <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+              <span>{user.phoneNumber || 'Belirtilmemiş'}</span>
+            </div>
+            <div className="flex items-center gap-2 text-slate-600">
+              <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"></path></svg>
+              <span className="font-mono text-xs bg-white px-1.5 py-0.5 rounded border border-slate-200">ID: {user.adminID}</span>
+            </div>
           </div>
+
+          {/* Normal Personel (User) Action */}
+          {!isAdmin && (
+            <button
+              onClick={() => handleDeleteUser(user.id)}
+              disabled={deletingUserId === user.id}
+              className={`w-full flex items-center justify-center gap-2 p-2.5 rounded-xl font-medium text-sm transition-all ${deletingUserId === user.id
+                  ? 'bg-red-50 text-red-400 cursor-not-allowed'
+                  : 'bg-white border border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300'
+                }`}
+            >
+              {deletingUserId === user.id ? (
+                <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+              ) : (
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+              )}
+              {deletingUserId === user.id ? 'Siliniyor...' : 'Personeli Sistemden Sil'}
+            </button>
+          )}
+
+          {/* Admin Actions (Modern Grid Toolbar) */}
+          {isAdmin && (
+            <div className="grid grid-cols-2 gap-2">
+              <ActionBtn
+                title="Takvimler"
+                icon={<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>}
+                onClick={() => handleCallenderStore(user.adminID, user.username)}
+                colorClass="text-blue-600 hover:bg-blue-50 hover:border-blue-200"
+              />
+              <ActionBtn
+                title="Kullanıcılar"
+                icon={<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>}
+                onClick={() => handleUserStore(user.adminID, user.username)}
+                colorClass="text-emerald-600 hover:bg-emerald-50 hover:border-emerald-200"
+              />
+              <ActionBtn
+                title="Nöbet Talebi"
+                icon={<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>}
+                onClick={() => handleSpecialTask(user.adminID, user.username)}
+                colorClass="text-purple-600 hover:bg-purple-50 hover:border-purple-200"
+              />
+              <ActionBtn
+                title="İzin Talebi"
+                icon={<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>}
+                onClick={() => handleOffdayStore(user.adminID, user.username)}
+                colorClass="text-orange-600 hover:bg-orange-50 hover:border-orange-200"
+              />
+              <ActionBtn
+                title="Departmanlar"
+                icon={<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>}
+                onClick={() => handleDepartmanStore(user.adminID, user.username)}
+                colorClass="text-indigo-600 hover:bg-indigo-50 hover:border-indigo-200"
+              />
+              <ActionBtn
+                title="Dept. İzinleri"
+                icon={<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>}
+                onClick={() => handleDepartmanOffDayStore(user.adminID, user.username)}
+                colorClass="text-rose-600 hover:bg-rose-50 hover:border-rose-200"
+              />
+              <div className="col-span-2">
+                <ActionBtn
+                  title="Kalan Takvim Hakkı"
+                  icon={<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>}
+                  onClick={() => handleCountOfCallender(user.adminID, user.username)}
+                  colorClass="text-slate-700 bg-slate-50 hover:bg-slate-100 border-slate-200 justify-center"
+                />
+              </div>
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 };
+
+// Yeni Toolbar Buton Bileşeni (Admin paneli için)
+const ActionBtn = ({ title, icon, onClick, colorClass }) => (
+  <button
+    onClick={onClick}
+    className={`flex items-center gap-2 p-2.5 rounded-xl border border-transparent transition-all duration-200 text-sm font-medium w-full ${colorClass}`}
+  >
+    {icon}
+    {title}
+  </button>
+);
 
 export default AdminPanel;

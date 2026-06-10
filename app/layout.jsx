@@ -9,7 +9,6 @@ import Footer from "./components/footer";
 import { NotificationProvider } from "./components/NotificationContext";
 import CustomToastContainer from "./components/ToastContainer";
 import api from "@/app/loaders/baseApi";
-import Pusher from 'pusher-js';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,44 +23,15 @@ const geistMono = Geist_Mono({
 export default function RootLayout({ children }) {
   const pathname = usePathname();
   const [userDataA, setUserData] = useState(null);
-  const [echoInitialized, setEchoInitialized] = useState(false);
   const router = useRouter();
 
-  const showHeaderPages = ["/", "/login", "/contact", "/about", "/register", "/pricing", "/nasil-kullanilir", "/gizlilik-politikasi", "/kvkk", "/cerez-politikasi"];
-  const showFooterPages = ["/", "/login", "/contact", "/about", "/register", "/pricing", "/nasil-kullanilir", "/gizlilik-politikasi", "/kvkk", "/cerez-politikasi"];
+  const showHeaderPages = ["/", "/login", "/contact", "/#", "/register", "/pricing", "/#"];
+  const showFooterPages = ["/", "/login", "/contact", "/#", "/register", "/pricing", "/#"];
 
   // pathname değerini temizle
   const cleanPathname = pathname === "/" ? "/" : pathname.replace(/\/$/, "");
 
-  // Echo başlatma işlemi
-  useEffect(() => {
-    if (typeof window !== 'undefined' && !window.Echo) {
-      import('laravel-echo').then(({ default: Echo }) => {
-        window.Echo = new Echo({
-          broadcaster: 'pusher',
-          key: process.env.NEXT_PUBLIC_PUSHER_APP_KEY,
-          cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER,
-          forceTLS: true,
-          wsPort: 6001,
-          encrypted: true,
-          disableStats: true,
-          enabledTransports: ['ws', 'wss']
-        });
-        setEchoInitialized(true);
-        console.log('Echo başarıyla başlatıldı');
-      }).catch(err => {
-        console.error('Echo başlatma hatası:', err);
-      });
-    }
-
-    return () => {
-      if (typeof window !== 'undefined' && window.Echo) {
-        window.Echo.disconnect();
-      }
-    };
-  }, []);
-
-  // Kullanıcı verilerini çek
+  // pathname ve cleanPathname değerlerini konsola yazdır
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -74,8 +44,8 @@ export default function RootLayout({ children }) {
             setUserData(data.data.userData);
           }
         }
-      } catch (error) {
-        console.error('Kullanıcı verisi çekme hatası:', error);
+      } catch {
+
       }
     };
 
@@ -83,7 +53,7 @@ export default function RootLayout({ children }) {
     if (showHeaderPages.includes(cleanPathname)) {
       fetchUserData();
     }
-  }, [cleanPathname]);
+  }, [cleanPathname]); // cleanPathname değiştiğinde useEffect yeniden çalışsın
 
   return (
     <html lang="tr">

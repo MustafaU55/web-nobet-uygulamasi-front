@@ -164,7 +164,7 @@ export default function PastCalendars() {
         <div className="min-h-screen bg-blue-300 text-black">
             <Sidebar />
             <div className="min-h-screen xl:ml-[40vh] px-4 p-2 sm:p-10 lg:px-8 pt-12 pb-32 bg-gradient-to-r from-blue-300 via-blue-200 to-blue-300">
-                <title>Geçmiş Takvimler - NöbetX</title>
+                <title>Geçmiş Takvimler - Nöbet Uygulaması</title>
                 <meta
                     name="description"
                     content="Geçmiş takvimlerinizi görüntüleyin ve yönetin."
